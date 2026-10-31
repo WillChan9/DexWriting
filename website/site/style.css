@@ -11,12 +11,14 @@ nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.93);backdrop-f
 nav .wrap{display:flex;align-items:center;gap:22px;height:54px;font-size:14px}
 nav .brand{font-weight:700;color:var(--ink);margin-right:auto}
 nav a{color:var(--body)}nav a.on{color:var(--ink);font-weight:600}
-header{text-align:center;padding:44px 0 14px}
+header{text-align:center;padding:52px 0 14px}
+.org{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600;font-size:14px}
+.org img.wordmark{height:62px;width:auto}
 footer .wordmark-sm{height:34px;width:auto;display:inline-block;margin-bottom:6px;opacity:.85}
 h1{margin:14px auto 6px;font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:-.02em;color:var(--ink);font-weight:800}
 .subtitle{margin:0 auto;max-width:760px;font-size:clamp(17px,2.4vw,22px);font-weight:500}
 .authors{margin:20px 0 2px;font-size:17px;color:var(--ink)}.authors span{margin:0 9px;white-space:nowrap}
-.aff{margin:10px 0 0}.aff img.wordmark{height:38px;width:auto;display:inline-block;opacity:.9}.aff a:hover img{opacity:1}
+.aff{color:var(--muted);font-size:15px;margin:0}
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px 0 6px}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;border:1px solid var(--ink);cursor:pointer}
 .btn:hover{text-decoration:none;opacity:.88}
