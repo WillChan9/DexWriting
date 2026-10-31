@@ -9,11 +9,5 @@ MUJOCO_LOG.TXT
 /eval/
 /cache/*
 !/cache/.gitkeep
-paper/*.aux
-paper/*.bbl
-paper/*.blg
-paper/*.fdb_latexmk
-paper/*.fls
-paper/*.log
-paper/*.out
-paper/*.synctex.gz
+# paper source: kept local until release
+/paper/

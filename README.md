@@ -1,6 +1,6 @@
 # DexWriting
 
-DexWriting is the code, checkpoints and paper source for **Grip, Trace, Write: force-aware imitation and reinforcement
+DexWriting is the code and checkpoints for **Grip, Trace, Write: force-aware imitation and reinforcement
 learning for high-DoF robotic handwriting**: a 25-DoF anthropomorphic hand on a UR5e arm writes with a
 freely held pen in MuJoCo. The simulation environment is the Python package `dexcraft`.
 
@@ -14,7 +14,6 @@ dex_hand/     the hand model (MJCF, skin) mounted on a UR5e
 scripts/           the training and evaluation pipeline used in the paper
 checkpoints/       trained weights (see below)
 results/           training curves and evaluation tables behind the paper figures
-paper/             LaTeX source, figures and the scripts that draw them
 website/           project page
 ```
 
@@ -91,21 +90,6 @@ The pipeline has three stages; the first is provided as a checkpoint.
    ```
 
 Training was run on a 128-core CPU machine with one GPU; the 40 M-step RL run takes about 3 h 15 min there.
-
-## Paper figures
-
-Run from the repository root, `make_example_figs.py` first (the case study reuses its rollouts):
-
-```bash
-MUJOCO_GL=glfw python paper/figure_scripts/make_example_figs.py
-MUJOCO_GL=glfw python paper/figure_scripts/make_case_study_fig.py
-MUJOCO_GL=glfw python paper/figure_scripts/make_env_figs.py
-MUJOCO_GL=glfw python paper/figure_scripts/make_task_suite_fig.py
-python paper/figure_scripts/make_rl_curves.py
-python paper/figure_scripts/make_pipeline_curves_fig.py
-```
-
-Rollout caches go to `cache/`. `paper/figs/model.pdf` and `training_pipeline_public.png` are drawn by hand.
 
 ## Website
 
