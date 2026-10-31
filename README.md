@@ -4,7 +4,7 @@ DexWriting is the code, checkpoints and paper source for **Grip, Trace, Write: f
 learning for high-DoF robotic handwriting**: a 25-DoF anthropomorphic hand on a UR5e arm writes with a
 freely held pen in MuJoCo. The simulation environment is the Python package `dexcraft`.
 
-Project page: https://chenrongqian.com/DexWriting/ (source in `website/site/`).
+Project page: https://dexwriting.github.io/ (source in `website/site/`, published from the `dexwriting/dexwriting.github.io` repository).
 
 ## Contents
 

@@ -21,7 +21,7 @@ dependencies = [
 train = ["torch>=2.0"]
 
 [project.urls]
-Homepage = "https://chenrongqian.com/DexWriting/"
+Homepage = "https://dexwriting.github.io/"
 
 [tool.setuptools]
 # The hand model lives in dex_hand/, a sibling of the package, so install
