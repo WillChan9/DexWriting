@@ -1,0 +1,19 @@
+__pycache__/
+*.egg-info/
+.DS_Store
+MUJOCO_LOG.TXT
+# scratch output of the pipeline scripts (repository root only)
+/data/
+/runs/
+/logs/
+/eval/
+/cache/*
+!/cache/.gitkeep
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.synctex.gz

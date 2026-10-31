@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dexcraft"
+version = "0.2.0"
+description = "DexWriting: force-aware imitation and reinforcement learning for high-DoF robotic handwriting"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [{name = "Daxo Robotics"}]
+dependencies = [
+    "mujoco>=3.2",
+    "gymnasium>=0.29",
+    "numpy>=1.24",
+    "pillow>=9.0",
+]
+
+[project.optional-dependencies]
+train = ["torch>=2.0"]
+
+[project.urls]
+Homepage = "https://willchan9.github.io/DexWriting/"
+
+[tool.setuptools]
+# The hand model lives in dex_hand/, a sibling of the package, so install
+# this editable (`pip install -e .`) - that keeps the paths intact.
+packages = ["dexcraft", "dexcraft.policies"]
+
+[tool.setuptools.package-data]
+dexcraft = ["assets/*.stl", "assets/*.json", "data/*.json", "data/teleop_wrist/*.csv", "grip_pocket.json", "human_grip.json"]

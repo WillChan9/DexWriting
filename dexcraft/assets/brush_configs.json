@@ -1,0 +1,89 @@
+{
+  "_comment": "Brush-tip reduced-order model and paper presets (brush_calligraphy_benchmark_spec v0.1). EVERY value is UNCALIBRATED: an order-of-magnitude starting point, not a measurement. Do not quote them as measured.",
+  "brush": {
+    "wolf": {
+      "_comment": "medium wolf-hair brush (狼毫)",
+      "L_tip": 0.035,
+      "r0": 0.005,
+      "d_ref": 0.008,
+      "k": 16000.0,
+      "alpha": 1.6,
+      "tau": 0.06,
+      "kappa": 1.0,
+      "mu0": 0.25,
+      "dmu": 0.35,
+      "c_t": 2.0,
+      "k_theta": 0.02,
+      "c_ink": 36000.0,
+      "m_dry": 0.15,
+      "calibrated": false
+    },
+    "fine": {
+      "_comment": "L5 paint: fine liner (rack slot 0). All rack brushes share the handle's 35 mm nominal tip site; presets differ in the footprint law; wet paint: lower friction and drag than the ink brush",
+      "L_tip": 0.035,
+      "r0": 0.0025,
+      "d_ref": 0.006,
+      "k": 20000.0,
+      "alpha": 1.6,
+      "tau": 0.04,
+      "kappa": 1.0,
+      "mu0": 0.18,
+      "dmu": 0.35,
+      "c_t": 1.0,
+      "k_theta": 0.01,
+      "c_ink": 40000.0,
+      "m_dry": 0.15,
+      "calibrated": false
+    },
+    "broad": {
+      "_comment": "L5 paint: broad wash brush (rack slot 2); paint is a wetter medium, so it uses less reservoir per swept volume; wet paint: lower friction and drag than the ink brush",
+      "L_tip": 0.035,
+      "r0": 0.008,
+      "d_ref": 0.01,
+      "k": 12000.0,
+      "alpha": 1.6,
+      "tau": 0.09,
+      "kappa": 1.0,
+      "mu0": 0.18,
+      "dmu": 0.35,
+      "c_t": 1.0,
+      "k_theta": 0.03,
+      "c_ink": 12000.0,
+      "m_dry": 0.15,
+      "calibrated": false
+    },
+    "goat": {
+      "_comment": "goat hair (羊毫): softer, hardens faster with depth",
+      "L_tip": 0.035,
+      "r0": 0.005,
+      "d_ref": 0.008,
+      "k": 16000.0,
+      "alpha": 2.0,
+      "tau": 0.09,
+      "kappa": 1.0,
+      "mu0": 0.25,
+      "dmu": 0.35,
+      "c_t": 2.0,
+      "k_theta": 0.015,
+      "c_ink": 36000.0,
+      "m_dry": 0.15,
+      "calibrated": false
+    }
+  },
+  "paper": {
+    "shuxuan": {
+      "_comment": "sized xuan paper (熟宣): little bleed",
+      "sigma_mm": [
+        0.4,
+        0.4
+      ]
+    },
+    "shengxuan": {
+      "_comment": "raw xuan paper (生宣): strong, slightly anisotropic bleed",
+      "sigma_mm": [
+        1.5,
+        1.2
+      ]
+    }
+  }
+}

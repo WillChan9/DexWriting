@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tasks · DexWriting</title>
+<meta name="description" content="Every task family in the simulator: the ones in the paper and the ones coming next.">
+<link rel="icon" href="media/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="index.html">DexWriting</a>
+  <a class="hide-sm" href="index.html#method">Method</a>
+  <a class="hide-sm" href="index.html#results">Results</a>
+  <a class="on" href="tasks.html">Tasks</a>
+  <a class="hide-sm" href="index.html#cite">Citation</a>
+</div></nav>
+
+<div class="wrap">
+<section style="padding-top:40px">
+  <h2>Tasks</h2>
+  <p class="lead" id="summary">Every task family in the simulator. Each is sampled per seed with a random size, position, slant and content (or object shape, mass, friction and layout). The clips below are one episode each.</p>
+  <div class="tabs" id="status-tabs">
+    <button class="tab on" data-s="all">All</button>
+    <button class="tab" data-s="paper">In the paper</button>
+    <button class="tab" data-s="next">Coming next</button>
+  </div>
+  <div class="tabs" id="level-tabs"></div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section>
+  <h3>Levels</h3>
+  <div class="tablewrap panel" style="padding:0;overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:14.5px" id="levels"></table></div>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <a href="https://daxo-robotics.com/" target="_blank" rel="noopener"><img class="wordmark-sm" src="media/daxo_wordmark.png" alt="Daxo Robotics"></a>
+</div></footer>
+
+<script src="media/data/data.js"></script>
+<script src="site.js"></script>
+<script>
+const LEVEL_TEXT = {
+  L0: ["Hold", "Keep a freely held pen while the environment drives the arm: still, swung through a box with a shaking wrist, dragged across the sheet under press. Picking the pen up and finger-only scribbling come next.", "paper"],
+  L1: ["Trace", "Lines, circles, spirals, squares, sines, figure-eights and zigzags: precision and arm–finger coordination.", "paper"],
+  L2: ["Write", "Digits, capital letters, English words in several faces including cursive, and Chinese characters: long-horizon precision with a requested force along every stroke.", "paper"],
+  E2: ["Zero-shot", "Held-out English words, four-character idioms and Chinese characters with seven or more strokes, never seen in training.", "paper"],
+  L3: ["Brush", "A calligraphy brush whose tuft is a reduced-order footprint model: press depth sets stroke width, the footprint lags the shaft, and one brushful of ink runs down.", "next"],
+  L4: ["Sketch", "Hatching: many short strokes at consistent spacing and pressure.", "next"],
+  L5: ["Paint", "Colour painting with paint wells and a rack of brushes: dip, paint, re-dip, change brushes.", "next"],
+  L6: ["Chopsticks", "A ladder of chopstick pinches: hold the sticks, then a soft cylinder, a cube, a heavy block and a ball.", "next"],
+};
+let ROWS = [], status = "all", level = "all";
+loadJSON("media/data/tasks.json").then(rows => {
+  const order = ["L0", "L1", "L2", "E2", "L3", "L4", "L5", "L6"];
+  ROWS = rows.sort((a, b) => order.indexOf(a.level) - order.indexOf(b.level));
+  const nPaper = rows.filter(r => r.paper && !r.zero_shot).length, nZs = rows.filter(r => r.zero_shot).length, nNext = rows.filter(r => !r.paper).length;
+  document.getElementById("summary").innerHTML += ` <b>${nPaper}</b> families are trained and evaluated in the paper, <b>${nZs}</b> more test it zero-shot, and <b>${nNext}</b> are coming next.`;
+  document.getElementById("level-tabs").innerHTML = `<button class="tab on" data-l="all">All levels</button>` +
+    order.map(l => `<button class="tab" data-l="${l}">${l} · ${LEVEL_TEXT[l][0]}</button>`).join("");
+  document.getElementById("levels").innerHTML = `<tr><th style="text-align:left;padding:10px 14px;background:var(--soft)">Level</th><th style="text-align:left;padding:10px 14px;background:var(--soft)">What it tests</th><th style="text-align:left;padding:10px 14px;background:var(--soft)">Status</th></tr>` +
+    order.map(l => `<tr><td style="padding:10px 14px;border-top:1px solid var(--line);white-space:nowrap"><b>${l}</b> ${LEVEL_TEXT[l][0]}</td><td style="padding:10px 14px;border-top:1px solid var(--line)">${LEVEL_TEXT[l][1]}</td><td style="padding:10px 14px;border-top:1px solid var(--line)">${LEVEL_TEXT[l][2] === "paper" ? '<span class="badge paper">IN THE PAPER</span>' : '<span class="badge next">COMING NEXT</span>'}</td></tr>`).join("");
+  tabs("status-tabs", b => { status = b.dataset.s; render(); });
+  tabs("level-tabs", b => { level = b.dataset.l; render(); });
+  render();
+});
+function render() {
+  document.getElementById("cards").innerHTML = ROWS
+    .filter(r => (status === "all" || (status === "paper") === r.paper) && (level === "all" || r.level === level))
+    .map(card).join("");
+  autoplayVisible();
+}
+</script>
+</body>
+</html>

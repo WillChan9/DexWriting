@@ -1,0 +1,565 @@
+{
+ "model": "dex_hand",
+ "arm": "ur5e (MuJoCo Menagerie), hand on the attachment site via a 25 mm adapter",
+ "frame": "hand_base convention: right hand, +y distal, -x radial (thumb side), -z palmar (palm down at rest); curl>0 = flexion, abd>0 = ulnar; qpos = 0 is a straight hand",
+ "hand_dof": 34,
+ "wrist_dof": 3,
+ "arm_dof": 6,
+ "fingers": [
+  "thumb",
+  "index",
+  "middle",
+  "ring",
+  "pinky"
+ ],
+ "chain": {
+  "thumb": [
+   "mcp",
+   "pip",
+   "dip"
+  ],
+  "index": [
+   null,
+   "mcp",
+   "pip",
+   "dip"
+  ],
+  "middle": [
+   null,
+   "mcp",
+   "pip",
+   "dip"
+  ],
+  "ring": [
+   "cmc",
+   "mcp",
+   "pip",
+   "dip"
+  ],
+  "pinky": [
+   "cmc",
+   "mcp",
+   "pip",
+   "dip"
+  ]
+ },
+ "segment_length_m": {
+  "thumb": [
+   0.02639270122827526,
+   0.03592445743762181,
+   0.023253744926892986
+  ],
+  "index": [
+   0.07325027255708683,
+   0.025199853825220886,
+   0.02263662329196866,
+   0.023154940921161948
+  ],
+  "middle": [
+   0.06904598273071363,
+   0.03184349543568509,
+   0.024974485636595236,
+   0.024696023971481722
+  ],
+  "ring": [
+   0.05831159362907602,
+   0.02816582645134882,
+   0.02369024499266523,
+   0.02447526231984045
+  ],
+  "pinky": [
+   0.052855082921370984,
+   0.021519097731724255,
+   0.014203462495990186,
+   0.0182752334543912
+  ]
+ },
+ "rest_pose": {
+  "thumb_mcp_joint": -0.0,
+  "thumb_mcp_abd_joint": -0.0,
+  "thumb_pip_joint": 0.08694,
+  "thumb_pip_abd_joint": 0.21622,
+  "thumb_dip_joint": 0.03264,
+  "index_mcp_joint": 0.27761,
+  "index_mcp_abd_joint": 0.15278,
+  "index_pip_joint": 0.19395,
+  "index_dip_joint": 0.03369,
+  "middle_mcp_joint": 0.21955,
+  "middle_mcp_abd_joint": 0.08404,
+  "middle_pip_joint": 0.19471,
+  "middle_dip_joint": -0.00204,
+  "ring_cmc_joint": -0.0,
+  "ring_cmc_abd_joint": -0.0,
+  "ring_mcp_joint": 0.2914,
+  "ring_mcp_abd_joint": 0.26165,
+  "ring_pip_joint": 0.20966,
+  "ring_dip_joint": -0.00698,
+  "pinky_cmc_joint": -0.0,
+  "pinky_cmc_abd_joint": 0.0,
+  "pinky_mcp_joint": 0.45622,
+  "pinky_mcp_abd_joint": -0.0342,
+  "pinky_pip_joint": 0.13713,
+  "pinky_dip_joint": 0.02626
+ },
+ "joints": [
+  {
+   "name": "shoulder_pan_joint",
+   "actuator": "shoulder_pan",
+   "group": "arm",
+   "type": "hinge",
+   "range_deg": [
+    -360.00026887880375,
+    360.00026887880375
+   ],
+   "torque": 150.0,
+   "max_vel": 3.14,
+   "home": -0.3386136008598967
+  },
+  {
+   "name": "shoulder_lift_joint",
+   "actuator": "shoulder_lift",
+   "group": "arm",
+   "type": "hinge",
+   "range_deg": [
+    -360.00026887880375,
+    360.00026887880375
+   ],
+   "torque": 150.0,
+   "max_vel": 3.14,
+   "home": -1.4849225845844058
+  },
+  {
+   "name": "elbow_joint",
+   "actuator": "elbow",
+   "group": "arm",
+   "type": "hinge",
+   "range_deg": [
+    -179.99469134034814,
+    179.99469134034814
+   ],
+   "torque": 150.0,
+   "max_vel": 3.14,
+   "home": 2.215983084494318
+  },
+  {
+   "name": "wrist_1_joint",
+   "actuator": "wrist_1",
+   "group": "arm",
+   "type": "hinge",
+   "range_deg": [
+    -360.00026887880375,
+    360.00026887880375
+   ],
+   "torque": 28.0,
+   "max_vel": 3.14,
+   "home": -3.3233659214508755
+  },
+  {
+   "name": "wrist_2_joint",
+   "actuator": "wrist_2",
+   "group": "arm",
+   "type": "hinge",
+   "range_deg": [
+    -360.00026887880375,
+    360.00026887880375
+   ],
+   "torque": 28.0,
+   "max_vel": 3.14,
+   "home": -1.278993542711975
+  },
+  {
+   "name": "wrist_3_joint",
+   "actuator": "wrist_3",
+   "group": "arm",
+   "type": "hinge",
+   "range_deg": [
+    -360.00026887880375,
+    360.00026887880375
+   ],
+   "torque": 28.0,
+   "max_vel": 3.14,
+   "home": 2.967286351817322
+  },
+  {
+   "name": "wrist_flex",
+   "actuator": "wrist_flex_act",
+   "group": "wrist",
+   "type": "hinge",
+   "range_deg": [
+    -60.0,
+    60.0
+   ],
+   "torque": 5.0,
+   "max_vel": 6.0
+  },
+  {
+   "name": "wrist_dev",
+   "actuator": "wrist_dev_act",
+   "group": "wrist",
+   "type": "hinge",
+   "range_deg": [
+    -50.0,
+    50.0
+   ],
+   "torque": 5.0,
+   "max_vel": 6.0
+  },
+  {
+   "name": "wrist_roll",
+   "actuator": "wrist_roll_act",
+   "group": "arm",
+   "home": 0.0,
+   "type": "hinge",
+   "range_deg": [
+    -120.0,
+    120.0
+   ],
+   "torque": 5.0,
+   "max_vel": 6.0
+  },
+  {
+   "name": "thumb_mcp_joint",
+   "actuator": "thumb_mcp_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -120,
+    120
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "thumb_mcp_abd_joint",
+   "actuator": "thumb_mcp_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    60
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "thumb_pip_joint",
+   "actuator": "thumb_pip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.06,
+   "max_vel": 3.0
+  },
+  {
+   "name": "thumb_pip_abd_joint",
+   "actuator": "thumb_pip_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -30,
+    30
+   ],
+   "torque": 0.06,
+   "max_vel": 3.0
+  },
+  {
+   "name": "thumb_dip_joint",
+   "actuator": "thumb_dip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.03,
+   "max_vel": 3.0
+  },
+  {
+   "name": "index_mcp_joint",
+   "actuator": "index_mcp_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -120,
+    120
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "index_mcp_abd_joint",
+   "actuator": "index_mcp_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    60
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "index_pip_joint",
+   "actuator": "index_pip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.06,
+   "max_vel": 3.0
+  },
+  {
+   "name": "index_dip_joint",
+   "actuator": "index_dip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.03,
+   "max_vel": 3.0
+  },
+  {
+   "name": "middle_mcp_joint",
+   "actuator": "middle_mcp_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -120,
+    120
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "middle_mcp_abd_joint",
+   "actuator": "middle_mcp_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    60
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "middle_pip_joint",
+   "actuator": "middle_pip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.06,
+   "max_vel": 3.0
+  },
+  {
+   "name": "middle_dip_joint",
+   "actuator": "middle_dip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.03,
+   "max_vel": 3.0
+  },
+  {
+   "name": "ring_cmc_joint",
+   "actuator": "ring_cmc_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -90,
+    105
+   ],
+   "torque": 0.3,
+   "max_vel": 3.0
+  },
+  {
+   "name": "ring_cmc_abd_joint",
+   "actuator": "ring_cmc_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    60
+   ],
+   "torque": 0.3,
+   "max_vel": 3.0
+  },
+  {
+   "name": "ring_mcp_joint",
+   "actuator": "ring_mcp_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -120,
+    120
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "ring_mcp_abd_joint",
+   "actuator": "ring_mcp_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    60
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "ring_pip_joint",
+   "actuator": "ring_pip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.06,
+   "max_vel": 3.0
+  },
+  {
+   "name": "ring_dip_joint",
+   "actuator": "ring_dip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.03,
+   "max_vel": 3.0
+  },
+  {
+   "name": "pinky_cmc_joint",
+   "actuator": "pinky_cmc_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -90,
+    105
+   ],
+   "torque": 0.3,
+   "max_vel": 3.0
+  },
+  {
+   "name": "pinky_cmc_abd_joint",
+   "actuator": "pinky_cmc_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    60
+   ],
+   "torque": 0.3,
+   "max_vel": 3.0
+  },
+  {
+   "name": "pinky_mcp_joint",
+   "actuator": "pinky_mcp_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -120,
+    120
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "pinky_mcp_abd_joint",
+   "actuator": "pinky_mcp_abd_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    60
+   ],
+   "torque": 0.12,
+   "max_vel": 3.0
+  },
+  {
+   "name": "pinky_pip_joint",
+   "actuator": "pinky_pip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.06,
+   "max_vel": 3.0
+  },
+  {
+   "name": "pinky_dip_joint",
+   "actuator": "pinky_dip_joint_act",
+   "group": "hand",
+   "type": "hinge",
+   "range_deg": [
+    -60,
+    105
+   ],
+   "torque": 0.03,
+   "max_vel": 3.0
+  }
+ ],
+ "actuator_order": [
+  "shoulder_pan",
+  "shoulder_lift",
+  "elbow",
+  "wrist_1",
+  "wrist_2",
+  "wrist_3",
+  "wrist_flex_act",
+  "wrist_dev_act",
+  "wrist_roll_act",
+  "thumb_mcp_joint_act",
+  "thumb_mcp_abd_joint_act",
+  "thumb_pip_joint_act",
+  "thumb_pip_abd_joint_act",
+  "thumb_dip_joint_act",
+  "index_mcp_joint_act",
+  "index_mcp_abd_joint_act",
+  "index_pip_joint_act",
+  "index_dip_joint_act",
+  "middle_mcp_joint_act",
+  "middle_mcp_abd_joint_act",
+  "middle_pip_joint_act",
+  "middle_dip_joint_act",
+  "ring_cmc_joint_act",
+  "ring_cmc_abd_joint_act",
+  "ring_mcp_joint_act",
+  "ring_mcp_abd_joint_act",
+  "ring_pip_joint_act",
+  "ring_dip_joint_act",
+  "pinky_cmc_joint_act",
+  "pinky_cmc_abd_joint_act",
+  "pinky_mcp_joint_act",
+  "pinky_mcp_abd_joint_act",
+  "pinky_pip_joint_act",
+  "pinky_dip_joint_act"
+ ],
+ "control_modes": [
+  "pos",
+  "delta_pos",
+  "vel",
+  "acc",
+  "torque"
+ ],
+ "kinematics_source": "MakeHuman default skeleton (CC0), see import_makehuman.py"
+}

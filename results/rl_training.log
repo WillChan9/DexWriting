@@ -1,0 +1,90 @@
+device: cuda | envs: 512 | tasks: L1_trace_line,L1_trace_circle,L1_trace_shape,L2_write_digits,L2_write_letters,L2_write_word,L2_write_cursive,L2_write_chinese
+grip frozen: 252,487 of 383,082 parameters train
+observation statistics frozen
+warm-started from r0_crit.pt (iteration 0)
+exploration std reset to the CLI values
+it     0  step    524,288  ret     231.2  len    284  prog 1.00  drop 0.01  finger -0.03  done 0.99  kl 0.0000/0v512  ev +0.57  std 0.018  3901 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p0.98/d0.07  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p1.00/d0.00  write_cursive p0.98/d0.03  write_chinese p1.00/d0.00
+it     1  step  1,048,576  ret     185.1  len    294  prog 0.99  drop 0.02  finger -0.03  done 0.99  kl 0.0000/0v512  ev +0.83  std 0.018  3761 sps
+it     2  step  1,572,864  ret     265.4  len    316  prog 0.99  drop 0.02  finger -0.03  done 0.99  kl 0.0000/0v512  ev +0.90  std 0.018  3713 sps
+it     3  step  2,097,152  ret     159.9  len    307  prog 0.98  drop 0.02  finger -0.03  done 0.99  kl 0.0267/4v512  ev +0.92  std 0.018  3644 sps
+it     4  step  2,621,440  ret     250.4  len    284  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0329/2v512  ev +0.94  std 0.018  3628 sps
+it     5  step  3,145,728  ret     209.6  len    294  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0297/4v512  ev +0.95  std 0.018  3601 sps
+it     6  step  3,670,016  ret      90.7  len    354  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0300/1v512  ev +0.95  std 0.018  3600 sps
+it     7  step  4,194,304  ret     186.5  len    312  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0300/1v512  ev +0.95  std 0.018  3602 sps
+it     8  step  4,718,592  ret     180.7  len    329  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0300/1v512  ev +0.94  std 0.018  3600 sps
+it     9  step  5,242,880  ret     149.0  len    318  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0302/3v512  ev +0.94  std 0.018  3596 sps
+it    10  step  5,767,168  ret     238.5  len    304  prog 0.99  drop 0.00  finger -0.02  done 1.00  kl 0.0300/1v512  ev +0.92  std 0.018  3595 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p1.00/d0.00  write_digits p0.99/d0.00  write_letters p1.00/d0.00  write_word p1.00/d0.00  write_cursive p0.99/d0.00  write_chinese p0.99/d0.00
+it    11  step  6,291,456  ret     280.4  len    301  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0300/1v512  ev +0.91  std 0.018  3596 sps
+it    12  step  6,815,744  ret     197.1  len    318  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0300/1v512  ev +0.90  std 0.018  3594 sps
+it    13  step  7,340,032  ret     242.7  len    310  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0301/3v512  ev +0.89  std 0.018  3590 sps
+it    14  step  7,864,320  ret     239.6  len    281  prog 1.00  drop 0.04  finger -0.03  done 1.00  kl 0.0300/1v512  ev +0.87  std 0.018  3587 sps
+it    15  step  8,388,608  ret     299.1  len    281  prog 0.99  drop 0.04  finger -0.03  done 0.99  kl 0.0300/3v512  ev +0.85  std 0.018  3577 sps
+it    16  step  8,912,896  ret     280.2  len    297  prog 1.00  drop 0.04  finger -0.03  done 1.00  kl 0.0350/4v512  ev +0.83  std 0.018  3567 sps
+it    17  step  9,437,184  ret     281.5  len    286  prog 0.99  drop 0.04  finger -0.03  done 0.98  kl 0.0044/4v512  ev +0.83  std 0.018  3561 sps
+it    18  step  9,961,472  ret     308.9  len    323  prog 1.00  drop 0.02  finger -0.03  done 0.99  kl 0.0300/4v512  ev +0.83  std 0.018  3553 sps
+it    19  step 10,485,760  ret     347.3  len    292  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0046/4v512  ev +0.83  std 0.018  3547 sps
+it    20  step 11,010,048  ret     313.7  len    304  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0101/4v512  ev +0.83  std 0.018  3544 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p1.00/d0.00  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p0.95/d0.00  write_cursive p1.00/d0.00  write_chinese p1.00/d0.00
+it    21  step 11,534,336  ret     319.7  len    290  prog 1.00  drop 0.01  finger -0.02  done 1.00  kl 0.0113/4v512  ev +0.82  std 0.018  3543 sps
+it    22  step 12,058,624  ret     273.7  len    316  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0043/4v512  ev +0.80  std 0.018  3534 sps
+it    23  step 12,582,912  ret     398.8  len    296  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0048/4v512  ev +0.81  std 0.018  3530 sps
+it    24  step 13,107,200  ret     364.3  len    282  prog 1.00  drop 0.01  finger -0.02  done 1.00  kl 0.0021/4v512  ev +0.80  std 0.018  3527 sps
+it    25  step 13,631,488  ret     355.1  len    300  prog 1.00  drop 0.03  finger -0.02  done 0.99  kl 0.0226/4v512  ev +0.82  std 0.018  3522 sps
+it    26  step 14,155,776  ret     372.8  len    278  prog 1.00  drop 0.01  finger -0.03  done 0.99  kl 0.0189/4v512  ev +0.82  std 0.018  3517 sps
+it    27  step 14,680,064  ret     455.0  len    266  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0176/4v512  ev +0.83  std 0.018  3515 sps
+it    28  step 15,204,352  ret     364.0  len    271  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0210/4v512  ev +0.84  std 0.018  3513 sps
+it    29  step 15,728,640  ret     437.4  len    267  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0224/4v512  ev +0.83  std 0.018  3510 sps
+it    30  step 16,252,928  ret     434.4  len    303  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0084/4v512  ev +0.84  std 0.018  3508 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p1.00/d0.00  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p0.98/d0.06  write_cursive p1.00/d0.00  write_chinese p1.00/d0.00
+it    31  step 16,777,216  ret     412.4  len    280  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0033/4v512  ev +0.85  std 0.018  3505 sps
+it    32  step 17,301,504  ret     448.0  len    278  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0061/4v512  ev +0.86  std 0.018  3502 sps
+it    33  step 17,825,792  ret     454.7  len    259  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0076/4v512  ev +0.86  std 0.018  3499 sps
+it    34  step 18,350,080  ret     456.5  len    272  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0048/4v512  ev +0.86  std 0.018  3496 sps
+it    35  step 18,874,368  ret     478.2  len    250  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0060/4v512  ev +0.86  std 0.018  3494 sps
+it    36  step 19,398,656  ret     458.2  len    270  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0026/4v512  ev +0.87  std 0.018  3491 sps
+it    37  step 19,922,944  ret     465.6  len    287  prog 1.00  drop 0.01  finger -0.02  done 1.00  kl 0.0111/4v512  ev +0.87  std 0.018  3487 sps
+it    38  step 20,447,232  ret     482.3  len    251  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0049/4v512  ev +0.87  std 0.018  3485 sps
+it    39  step 20,971,520  ret     479.1  len    260  prog 0.99  drop 0.01  finger -0.02  done 1.00  kl 0.0026/4v512  ev +0.87  std 0.018  3482 sps
+it    40  step 21,495,808  ret     539.7  len    262  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0027/4v512  ev +0.88  std 0.018  3482 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p1.00/d0.00  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p0.99/d0.00  write_cursive p1.00/d0.00  write_chinese p1.00/d0.00
+it    41  step 22,020,096  ret     520.8  len    236  prog 0.99  drop 0.00  finger -0.02  done 1.00  kl 0.0098/4v512  ev +0.87  std 0.018  3480 sps
+it    42  step 22,544,384  ret     501.4  len    251  prog 0.99  drop 0.00  finger -0.02  done 1.00  kl 0.0028/4v512  ev +0.89  std 0.018  3478 sps
+it    43  step 23,068,672  ret     480.7  len    250  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0028/4v512  ev +0.89  std 0.018  3475 sps
+it    44  step 23,592,960  ret     529.0  len    228  prog 0.99  drop 0.01  finger -0.02  done 0.99  kl 0.0039/4v512  ev +0.88  std 0.018  3472 sps
+it    45  step 24,117,248  ret     560.3  len    244  prog 1.00  drop 0.01  finger -0.02  done 0.99  kl 0.0021/4v512  ev +0.89  std 0.018  3469 sps
+it    46  step 24,641,536  ret     482.8  len    246  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0028/4v512  ev +0.88  std 0.018  3467 sps
+it    47  step 25,165,824  ret     543.3  len    247  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0038/4v512  ev +0.90  std 0.018  3466 sps
+it    48  step 25,690,112  ret     516.3  len    243  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0067/4v512  ev +0.89  std 0.018  3464 sps
+it    49  step 26,214,400  ret     544.6  len    246  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0019/4v512  ev +0.89  std 0.018  3463 sps
+it    50  step 26,738,688  ret     605.2  len    247  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0060/4v512  ev +0.90  std 0.018  3460 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p1.00/d0.00  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p0.98/d0.00  write_cursive p1.00/d0.00  write_chinese p1.00/d0.00
+it    51  step 27,262,976  ret     562.6  len    251  prog 1.00  drop 0.00  finger -0.03  done 1.00  kl 0.0059/4v512  ev +0.90  std 0.018  3459 sps
+it    52  step 27,787,264  ret     527.9  len    244  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0305/2v512  ev +0.90  std 0.018  3459 sps
+it    53  step 28,311,552  ret     544.8  len    228  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0024/4v512  ev +0.91  std 0.018  3458 sps
+it    54  step 28,835,840  ret     523.8  len    245  prog 1.00  drop 0.01  finger -0.02  done 1.00  kl 0.0036/4v512  ev +0.91  std 0.018  3456 sps
+it    55  step 29,360,128  ret     640.1  len    254  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0052/4v512  ev +0.91  std 0.018  3456 sps
+it    56  step 29,884,416  ret     547.4  len    284  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0009/4v512  ev +0.91  std 0.018  3454 sps
+it    57  step 30,408,704  ret     522.7  len    260  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0033/4v512  ev +0.90  std 0.018  3453 sps
+it    58  step 30,932,992  ret     617.0  len    246  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0018/4v512  ev +0.91  std 0.018  3452 sps
+it    59  step 31,457,280  ret     590.5  len    235  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0012/4v512  ev +0.90  std 0.018  3451 sps
+it    60  step 31,981,568  ret     617.3  len    211  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0018/4v512  ev +0.91  std 0.018  3449 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p1.00/d0.00  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p1.00/d0.00  write_cursive p1.00/d0.00  write_chinese p1.00/d0.00
+it    61  step 32,505,856  ret     531.8  len    240  prog 0.99  drop 0.01  finger -0.02  done 0.99  kl 0.0013/4v512  ev +0.91  std 0.018  3448 sps
+it    62  step 33,030,144  ret     677.0  len    238  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0025/4v512  ev +0.91  std 0.018  3447 sps
+it    63  step 33,554,432  ret     581.6  len    244  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0014/4v512  ev +0.91  std 0.018  3445 sps
+it    64  step 34,078,720  ret     584.7  len    239  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0028/4v512  ev +0.91  std 0.018  3443 sps
+it    65  step 34,603,008  ret     610.4  len    255  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0008/4v512  ev +0.91  std 0.018  3442 sps
+it    66  step 35,127,296  ret     581.7  len    236  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0021/4v512  ev +0.91  std 0.018  3440 sps
+it    67  step 35,651,584  ret     600.1  len    235  prog 0.99  drop 0.00  finger -0.02  done 0.99  kl 0.0028/4v512  ev +0.91  std 0.018  3439 sps
+it    68  step 36,175,872  ret     627.2  len    272  prog 0.99  drop 0.00  finger -0.02  done 0.99  kl 0.0034/4v512  ev +0.91  std 0.018  3437 sps
+it    69  step 36,700,160  ret     619.2  len    206  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0034/4v512  ev +0.92  std 0.018  3436 sps
+it    70  step 37,224,448  ret     636.2  len    252  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0019/4v512  ev +0.92  std 0.018  3435 sps
+       trace_line p0.99/d0.00  trace_circle p1.00/d0.00  trace_shape p0.98/d0.03  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p0.91/d0.07  write_cursive p1.00/d0.00  write_chinese p1.00/d0.00
+it    71  step 37,748,736  ret     628.0  len    254  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0018/4v512  ev +0.92  std 0.018  3434 sps
+it    72  step 38,273,024  ret     621.5  len    252  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0018/4v512  ev +0.91  std 0.018  3432 sps
+it    73  step 38,797,312  ret     635.6  len    229  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0019/4v512  ev +0.92  std 0.018  3432 sps
+it    74  step 39,321,600  ret     607.2  len    249  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0005/4v512  ev +0.92  std 0.018  3430 sps
+it    75  step 39,845,888  ret     566.0  len    247  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0005/4v512  ev +0.92  std 0.018  3429 sps
+done: 39,845,888 steps in 193.8 min -> runs/v17_r1/agent.pt

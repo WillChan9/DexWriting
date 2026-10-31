@@ -1,0 +1,13 @@
+device: cuda | envs: 512 | tasks: L1_trace_line,L1_trace_circle,L1_trace_shape,L2_write_digits,L2_write_letters,L2_write_word,L2_write_cursive,L2_write_chinese
+grip frozen: 252,487 of 383,082 parameters train
+observation statistics frozen
+warm-started from r0_crit.pt (iteration 0)
+exploration std reset to the CLI values
+it     0  step    524,288  ret    1156.0  len    284  prog 1.00  drop 0.01  finger -0.03  done 0.99  kl 0.0000/0v512  ev +0.60  std 0.018  3878 sps
+       trace_line p1.00/d0.00  trace_circle p1.00/d0.00  trace_shape p0.98/d0.07  write_digits p1.00/d0.00  write_letters p1.00/d0.00  write_word p1.00/d0.00  write_cursive p0.98/d0.03  write_chinese p1.00/d0.00
+it     1  step  1,048,576  ret    1128.5  len    294  prog 0.99  drop 0.02  finger -0.03  done 0.99  kl 0.0571/4v512  ev +0.86  std 0.018  3675 sps
+it     2  step  1,572,864  ret    1189.5  len    327  prog 1.00  drop 0.01  finger -0.03  done 0.99  kl 0.0387/4v512  ev +0.93  std 0.018  3635 sps
+it     3  step  2,097,152  ret    1141.5  len    306  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0113/4v512  ev +0.96  std 0.018  3611 sps
+it     4  step  2,621,440  ret    1180.2  len    350  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0233/4v512  ev +0.97  std 0.018  3609 sps
+it     5  step  3,145,728  ret    1227.7  len    392  prog 0.99  drop 0.00  finger -0.02  done 0.99  kl 0.0500/1v512  ev +0.97  std 0.018  3625 sps
+it     6  step  3,670,016  ret    1141.4  len    362  prog 1.00  drop 0.00  finger -0.02  done 1.00  kl 0.0501/3v512  ev +0.98  std 0.018  3634 sps

@@ -1,0 +1,40 @@
+{
+ "hand_pose": {
+  "ring_cmc_joint": 0.0,
+  "ring_cmc_abd_joint": 0.0,
+  "ring_mcp_joint": 0.715357,
+  "ring_mcp_abd_joint": 0.0,
+  "ring_pip_joint": 0.817548,
+  "ring_dip_joint": 0.400381,
+  "pinky_cmc_joint": 0.0,
+  "pinky_cmc_abd_joint": 0.0,
+  "pinky_mcp_joint": 0.73937,
+  "pinky_mcp_abd_joint": 0.0,
+  "pinky_pip_joint": 0.851449,
+  "pinky_dip_joint": 0.410708,
+  "thumb_mcp_joint": 0.54643,
+  "thumb_mcp_abd_joint": -0.231631,
+  "thumb_pip_joint": 0.371808,
+  "thumb_pip_abd_joint": 0.0488439,
+  "thumb_dip_joint": 0.318612,
+  "index_mcp_joint": 0.636257,
+  "index_mcp_abd_joint": -0.0638795,
+  "index_pip_joint": 0.533685,
+  "index_dip_joint": 0.507082,
+  "middle_mcp_joint": 0.573019,
+  "middle_mcp_abd_joint": -0.305245,
+  "middle_pip_joint": 0.987345,
+  "middle_dip_joint": 0.586469
+ },
+ "wrist": {
+  "wrist_flex": -0.624929,
+  "wrist_dev": 0.517314,
+  "wrist_roll": -0.274285
+ },
+ "pen_axis_world": [
+  -0.037276741659371504,
+  -0.659114155713126,
+  0.7511184821783002
+ ],
+ "n_frames": 2915
+}

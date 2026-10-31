@@ -1,0 +1,187 @@
+<mujoco model="dex_hand">
+  <compiler angle="degree" autolimits="true" assetdir="."/>
+  <option timestep="0.002" solver="Newton" iterations="100"/>
+  <statistic extent="1.2" center="0 0.05 0.2"/>
+  <visual>
+    <headlight ambient="0.3 0.3 0.3" diffuse="0.15 0.15 0.15" specular="0.08 0.08 0.08"/>
+    <rgba fog="1 1 1 1" haze="1 1 1 1"/>
+    <global offwidth="1600" offheight="1200"/>
+  </visual>
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.97 0.97 0.98" rgb2="0.80 0.84 0.92" width="512" height="512"/>
+    <texture name="floor_tex" type="2d" builtin="checker" rgb1="0.93 0.93 0.95" rgb2="0.85 0.85 0.88" width="256" height="256"/>
+    <material name="floor_mat" texture="floor_tex" texrepeat="48 48" specular="0" shininess="0" reflectance="0"/>
+    <material name="shell" rgba="0.62 0.64 0.68 1" specular="0.3" shininess="0.3"/>
+    <material name="metal" rgba="0.22 0.23 0.26 1" specular="0.8" shininess="0.8"/>
+    <material name="rubber" rgba="0.08 0.08 0.08 1" specular="0.05" shininess="0.05"/>
+    <material name="skin" rgba="0.96 0.96 0.96 1" specular="0.35" shininess="0.45" reflectance="0"/>
+  </asset>
+  <default>
+    <joint type="hinge" damping="0.005" armature="0.001" limited="true"/>
+    <site group="4" rgba="1 0 0 1"/>
+    <default class="collision">
+      <geom contype="1" conaffinity="1" condim="3" friction="1 0.005 0.0001" density="1000" group="3" rgba="0.9 0.5 0.3 0.4"/>
+    </default>
+    <default class="visual">
+      <geom contype="0" conaffinity="0" density="0" group="1"/>
+    </default>
+  </default>
+  <worldbody>
+    <light name="key" directional="true" dir="-0.4 0.3 -1" diffuse="0.5 0.5 0.5" specular="0.3 0.3 0.3" castshadow="false"/>
+    <light name="fill" directional="true" dir="0.7 -0.5 -0.5" diffuse="0.18 0.18 0.18" specular="0.05 0.05 0.05" castshadow="false"/>
+    <light name="rim" directional="true" dir="0 -0.8 0.3" diffuse="0.12 0.12 0.12" specular="0.1 0.1 0.1" castshadow="false"/>
+    <light name="under" directional="true" dir="-0.2 -0.1 1" diffuse="0.25 0.25 0.25" specular="0.05 0.05 0.05" castshadow="false"/>
+    <geom name="floor" type="plane" pos="0 0 -0.05" size="4 4 0.01" material="floor_mat" contype="0" conaffinity="0"/>
+    <body name="arm" pos="0 0 0.25">
+      <joint name="arm_tx" type="slide" axis="1 0 0" range="-0.3 0.3" damping="2" armature="0.1"/>
+      <joint name="arm_ty" type="slide" axis="0 1 0" range="-0.3 0.3" damping="2" armature="0.1"/>
+      <joint name="arm_tz" type="slide" axis="0 0 1" range="-0.3 0.3" damping="2" armature="0.1"/>
+      <geom name="forearm_geom" class="visual" type="cylinder" fromto="0 -0.25 0 0 -0.02 0" size="0.02" material="metal" density="1000" group="3"/>
+      <body name="hand_base" pos="0 0 0">
+        <joint name="wrist_flex" axis="1 0 0" range="-60 60" damping="1.0" armature="0.01"/>
+        <joint name="wrist_dev" axis="0 0 1" range="-50 50" damping="1.0" armature="0.01"/>
+        <joint name="wrist_roll" axis="0 1 0" range="-120 120" damping="1.0" armature="0.01"/>
+        <geom name="palm_geom" class="collision" type="box" pos="-0.00563283 0.0429581 -0.004" size="0.0306403 0.0409125 0.012"/>
+        <site name="palm_site" pos="0 0.045 -0.012" size="0.004"/>
+        <body name="thumb_mcp" pos="-0.0221254 0.0332809 -0.0134119" quat="0.912627 -0.145368 -0.0601012 0.377318">
+          <joint name="thumb_mcp_joint" axis="-1 0 0" range="-120 120"/>
+          <joint name="thumb_mcp_abd_joint" axis="0 0 -1" range="-60 60"/>
+          <geom name="thumb_mcp_geom" class="collision" type="capsule" fromto="0 0.0105 0 0 0.01589 0" size="0.0105"/>
+          <body name="thumb_pip" pos="0 0.0263927 0">
+            <joint name="thumb_pip_joint" axis="-1 0 0" range="-60 105"/>
+            <joint name="thumb_pip_abd_joint" axis="0 0 -1" range="-30 30"/>
+            <geom name="thumb_pip_geom" class="collision" type="capsule" fromto="0 0.008486 0 0 0.02744 0" size="0.008486"/>
+            <body name="thumb_dip" pos="0 0.0359245 0">
+              <joint name="thumb_dip_joint" axis="-1 0 0" range="-60 105"/>
+              <geom name="thumb_dip_geom" class="collision" type="capsule" fromto="0 0.005078 0 0 0.01818 0" size="0.005078"/>
+              <geom name="thumb_pad00" class="collision" type="sphere" pos="-0.00262956 0.0104642 -0.00313378" size="0.0029623"/>
+              <geom name="thumb_pad01" class="collision" type="sphere" pos="0 0.0104642 -0.00409086" size="0.0029623"/>
+              <geom name="thumb_pad02" class="collision" type="sphere" pos="0.00262956 0.0104642 -0.00313378" size="0.0029623"/>
+              <geom name="thumb_pad10" class="collision" type="sphere" pos="-0.00262956 0.0181379 -0.00313378" size="0.0029623"/>
+              <geom name="thumb_pad11" class="collision" type="sphere" pos="0 0.0181379 -0.00409086" size="0.0029623"/>
+              <geom name="thumb_pad12" class="collision" type="sphere" pos="0.00262956 0.0181379 -0.00313378" size="0.0029623"/>
+              <site name="thumb_tip" pos="0 0.02325 0" size="0.003"/>
+            </body>
+          </body>
+        </body>
+        <body name="index_mcp" pos="-0.0246253 0.0968774 0.00108168" quat="0.983181 0.0895048 0.0144332 0.158544">
+          <joint name="index_mcp_joint" axis="-1 0 0" range="-120 120"/>
+          <joint name="index_mcp_abd_joint" axis="0 0 -1" range="-60 60"/>
+          <geom name="index_mcp_geom" class="collision" type="capsule" fromto="0 0.008332 0 0 0.01687 0" size="0.008332"/>
+          <body name="index_pip" pos="0 0.0251999 0">
+            <joint name="index_pip_joint" axis="-1 0 0" range="-60 105"/>
+            <geom name="index_pip_geom" class="collision" type="capsule" fromto="0 0.007589 0 0 0.01505 0" size="0.007589"/>
+            <body name="index_dip" pos="0 0.0226366 0">
+              <joint name="index_dip_joint" axis="-1 0 0" range="-60 105"/>
+              <geom name="index_dip_geom" class="collision" type="capsule" fromto="0 0.004508 0 0 0.01865 0" size="0.004508"/>
+              <geom name="index_pad00" class="collision" type="sphere" pos="-0.00233445 0.0104197 -0.00278209" size="0.0026299"/>
+              <geom name="index_pad01" class="collision" type="sphere" pos="0 0.0104197 -0.00363176" size="0.0026299"/>
+              <geom name="index_pad02" class="collision" type="sphere" pos="0.00233445 0.0104197 -0.00278209" size="0.0026299"/>
+              <geom name="index_pad10" class="collision" type="sphere" pos="-0.00233445 0.0180609 -0.00278209" size="0.0026299"/>
+              <geom name="index_pad11" class="collision" type="sphere" pos="0 0.0180609 -0.00363176" size="0.0026299"/>
+              <geom name="index_pad12" class="collision" type="sphere" pos="0.00233445 0.0180609 -0.00278209" size="0.0026299"/>
+              <site name="index_tip" pos="0 0.02315 0" size="0.003"/>
+            </body>
+          </body>
+        </body>
+        <body name="middle_mcp" pos="-1.66533e-17 0.0964238 0" quat="0.995989 0.0882879 -0.00128519 -0.0144984">
+          <joint name="middle_mcp_joint" axis="-1 0 0" range="-120 120"/>
+          <joint name="middle_mcp_abd_joint" axis="0 0 -1" range="-60 60"/>
+          <geom name="middle_mcp_geom" class="collision" type="capsule" fromto="0 0.009056 0 0 0.02279 0" size="0.009056"/>
+          <body name="middle_pip" pos="0 0.0318435 0">
+            <joint name="middle_pip_joint" axis="-1 0 0" range="-60 105"/>
+            <geom name="middle_pip_geom" class="collision" type="capsule" fromto="0 0.007365 0 0 0.01761 0" size="0.007365"/>
+            <body name="middle_dip" pos="0 0.0249745 0">
+              <joint name="middle_dip_joint" axis="-1 0 0" range="-60 105"/>
+              <geom name="middle_dip_geom" class="collision" type="capsule" fromto="0 0.004526 0 0 0.02017 0" size="0.004526"/>
+              <geom name="middle_pad00" class="collision" type="sphere" pos="-0.0023434 0.0111132 -0.00279275" size="0.00264"/>
+              <geom name="middle_pad01" class="collision" type="sphere" pos="0 0.0111132 -0.00364568" size="0.00264"/>
+              <geom name="middle_pad02" class="collision" type="sphere" pos="0.0023434 0.0111132 -0.00279275" size="0.00264"/>
+              <geom name="middle_pad10" class="collision" type="sphere" pos="-0.0023434 0.0192629 -0.00279275" size="0.00264"/>
+              <geom name="middle_pad11" class="collision" type="sphere" pos="0 0.0192629 -0.00364568" size="0.00264"/>
+              <geom name="middle_pad12" class="collision" type="sphere" pos="0.0023434 0.0192629 -0.00279275" size="0.00264"/>
+              <site name="middle_tip" pos="0 0.0247 0" size="0.003"/>
+            </body>
+          </body>
+        </body>
+        <body name="ring_cmc" pos="0.0180739 0.0336882 -0.0134119" quat="0.991471 0.130102 -0.000996842 -0.00759664">
+          <joint name="ring_cmc_joint" axis="-1 0 0" range="-90 105"/>
+          <joint name="ring_cmc_abd_joint" axis="0 0 -1" range="-60 60"/>
+          <geom name="ring_cmc_geom" class="collision" type="capsule" fromto="0 0.0105 0 0 0.04781 0" size="0.0105"/>
+          <body name="ring_mcp" pos="0 0.0583116 0">
+            <joint name="ring_mcp_joint" axis="-1 0 0" range="-120 120"/>
+            <joint name="ring_mcp_abd_joint" axis="0 0 -1" range="-60 60"/>
+            <geom name="ring_mcp_geom" class="collision" type="capsule" fromto="0 0.008275 0 0 0.01989 0" size="0.008275"/>
+            <body name="ring_pip" pos="0 0.0281658 0">
+              <joint name="ring_pip_joint" axis="-1 0 0" range="-60 105"/>
+              <geom name="ring_pip_geom" class="collision" type="capsule" fromto="0 0.006785 0 0 0.0169 0" size="0.006785"/>
+              <body name="ring_dip" pos="0 0.0236902 0">
+                <joint name="ring_dip_joint" axis="-1 0 0" range="-60 105"/>
+                <geom name="ring_dip_geom" class="collision" type="capsule" fromto="0 0.005942 0 0 0.01853 0" size="0.005942"/>
+                <site name="ring_tip" pos="0 0.02448 0" size="0.003"/>
+              </body>
+            </body>
+          </body>
+        </body>
+        <body name="pinky_cmc" pos="0.0180739 0.0336882 -0.0134119" quat="0.974174 0.124772 -0.0239083 -0.186667">
+          <joint name="pinky_cmc_joint" axis="-1 0 0" range="-90 105"/>
+          <joint name="pinky_cmc_abd_joint" axis="0 0 -1" range="-60 60"/>
+          <geom name="pinky_cmc_geom" class="collision" type="capsule" fromto="0 0.0105 0 0 0.04236 0" size="0.0105"/>
+          <body name="pinky_mcp" pos="0 0.0528551 0">
+            <joint name="pinky_mcp_joint" axis="-1 0 0" range="-120 120"/>
+            <joint name="pinky_mcp_abd_joint" axis="0 0 -1" range="-60 60"/>
+            <geom name="pinky_mcp_geom" class="collision" type="capsule" fromto="0 0.006794 0 0 0.01473 0" size="0.006794"/>
+            <body name="pinky_pip" pos="0 0.0215191 0">
+              <joint name="pinky_pip_joint" axis="-1 0 0" range="-60 105"/>
+              <geom name="pinky_pip_geom" class="collision" type="capsule" fromto="0 0.005652 0 0 0.008552 0" size="0.005652"/>
+              <body name="pinky_dip" pos="0 0.0142035 0">
+                <joint name="pinky_dip_joint" axis="-1 0 0" range="-60 105"/>
+                <geom name="pinky_dip_geom" class="collision" type="capsule" fromto="0 0.005004 0 0 0.01327 0" size="0.005004"/>
+                <site name="pinky_tip" pos="0 0.01828 0" size="0.003"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <contact>
+    <exclude body1="ring_cmc" body2="pinky_cmc"/>
+  </contact>
+  <actuator>
+    <position name="arm_tx_act" joint="arm_tx" kp="3000" kv="150" ctrlrange="-0.3 0.3" forcerange="-300 300"/>
+    <position name="arm_ty_act" joint="arm_ty" kp="3000" kv="150" ctrlrange="-0.3 0.3" forcerange="-300 300"/>
+    <position name="arm_tz_act" joint="arm_tz" kp="3000" kv="150" ctrlrange="-0.3 0.3" forcerange="-300 300"/>
+    <position name="wrist_flex_act" joint="wrist_flex" kp="30" kv="1" ctrlrange="-1.0472 1.0472" forcerange="-5 5"/>
+    <position name="wrist_dev_act" joint="wrist_dev" kp="30" kv="1" ctrlrange="-0.87266 0.87266" forcerange="-5 5"/>
+    <position name="wrist_roll_act" joint="wrist_roll" kp="30" kv="1" ctrlrange="-2.0944 2.0944" forcerange="-5 5"/>
+    <position name="thumb_mcp_joint_act" joint="thumb_mcp_joint" kp="4" kv="0.2" ctrlrange="-2.0944 2.0944" forcerange="-0.12 0.12"/>
+    <position name="thumb_mcp_abd_joint_act" joint="thumb_mcp_abd_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.0472" forcerange="-0.12 0.12"/>
+    <position name="thumb_pip_joint_act" joint="thumb_pip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.06 0.06"/>
+    <position name="thumb_pip_abd_joint_act" joint="thumb_pip_abd_joint" kp="4" kv="0.2" ctrlrange="-0.5236 0.5236" forcerange="-0.06 0.06"/>
+    <position name="thumb_dip_joint_act" joint="thumb_dip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.03 0.03"/>
+    <position name="index_mcp_joint_act" joint="index_mcp_joint" kp="4" kv="0.2" ctrlrange="-2.0944 2.0944" forcerange="-0.12 0.12"/>
+    <position name="index_mcp_abd_joint_act" joint="index_mcp_abd_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.0472" forcerange="-0.12 0.12"/>
+    <position name="index_pip_joint_act" joint="index_pip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.06 0.06"/>
+    <position name="index_dip_joint_act" joint="index_dip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.03 0.03"/>
+    <position name="middle_mcp_joint_act" joint="middle_mcp_joint" kp="4" kv="0.2" ctrlrange="-2.0944 2.0944" forcerange="-0.12 0.12"/>
+    <position name="middle_mcp_abd_joint_act" joint="middle_mcp_abd_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.0472" forcerange="-0.12 0.12"/>
+    <position name="middle_pip_joint_act" joint="middle_pip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.06 0.06"/>
+    <position name="middle_dip_joint_act" joint="middle_dip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.03 0.03"/>
+    <position name="ring_cmc_joint_act" joint="ring_cmc_joint" kp="4" kv="0.2" ctrlrange="-1.5708 1.8326" forcerange="-0.3 0.3"/>
+    <position name="ring_cmc_abd_joint_act" joint="ring_cmc_abd_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.0472" forcerange="-0.3 0.3"/>
+    <position name="ring_mcp_joint_act" joint="ring_mcp_joint" kp="4" kv="0.2" ctrlrange="-2.0944 2.0944" forcerange="-0.12 0.12"/>
+    <position name="ring_mcp_abd_joint_act" joint="ring_mcp_abd_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.0472" forcerange="-0.12 0.12"/>
+    <position name="ring_pip_joint_act" joint="ring_pip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.06 0.06"/>
+    <position name="ring_dip_joint_act" joint="ring_dip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.03 0.03"/>
+    <position name="pinky_cmc_joint_act" joint="pinky_cmc_joint" kp="4" kv="0.2" ctrlrange="-1.5708 1.8326" forcerange="-0.3 0.3"/>
+    <position name="pinky_cmc_abd_joint_act" joint="pinky_cmc_abd_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.0472" forcerange="-0.3 0.3"/>
+    <position name="pinky_mcp_joint_act" joint="pinky_mcp_joint" kp="4" kv="0.2" ctrlrange="-2.0944 2.0944" forcerange="-0.12 0.12"/>
+    <position name="pinky_mcp_abd_joint_act" joint="pinky_mcp_abd_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.0472" forcerange="-0.12 0.12"/>
+    <position name="pinky_pip_joint_act" joint="pinky_pip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.06 0.06"/>
+    <position name="pinky_dip_joint_act" joint="pinky_dip_joint" kp="4" kv="0.2" ctrlrange="-1.0472 1.8326" forcerange="-0.03 0.03"/>
+  </actuator>
+  <deformable>
+    <skin name="hand_skin" file="dex_hand.skn" material="skin"/>
+  </deformable>
+</mujoco>

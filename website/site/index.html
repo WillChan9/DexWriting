@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DexWriting · Grip, Trace, Write</title>
+<meta name="description" content="Force-aware imitation and reinforcement learning for high-DoF robotic handwriting with a freely held pen.">
+<link rel="icon" href="media/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="#">DexWriting</a>
+  <a class="hide-sm" href="#why">Why it's hard</a>
+  <a class="hide-sm" href="#method">Method</a>
+  <a class="hide-sm" href="#results">Results</a>
+  <a href="tasks.html">Tasks</a>
+  <a class="hide-sm" href="#next">Coming next</a>
+  <a class="hide-sm" href="#cite">Citation</a>
+</div></nav>
+
+<div class="wrap">
+<header>
+  <a class="org" href="https://daxo-robotics.com/" target="_blank" rel="noopener"><img class="wordmark" src="media/daxo_wordmark.png" alt="Daxo Robotics"></a>
+  <h1>Grip, Trace, Write</h1>
+  <p class="subtitle">Force-Aware Imitation and Reinforcement Learning for High-DoF Robotic Handwriting</p>
+  <p class="authors"><span>Rongqian Chen</span><span>Yiding Chen</span><span>Jijie Zhou</span><span>Tom Z. Jiahao</span></p>
+  <p class="aff">Daxo Robotics</p>
+  <div class="links">
+    <a class="btn" href="#">Paper <span class="soon">coming soon</span></a>
+    <a class="btn" href="https://github.com/WillChan9/DexWriting" target="_blank" rel="noopener">Code</a>
+    <a class="btn ghost" href="tasks.html">All tasks</a>
+  </div>
+</header>
+
+<div class="hero-grid" id="hero"></div>
+<p class="note" style="text-align:center">One 25-DoF hand holding its tools by friction alone. Each tile is one episode, looping on its own.</p>
+
+<section id="abstract">
+  <h2>Abstract</h2>
+  <p class="lead" style="max-width:none">Dexterous robotic handwriting with a <b>freely held pen</b> requires stable grasp retention, precise trajectory execution, and contact-force regulation in one coupled system. We present <em>Grip, Trace, Write</em>, a staged learning framework that first learns a reusable grasp controller, then trains a trajectory-conditioned writer from inverse-kinematics demonstrations, and finally improves writing through RL with rewards defined on task outcomes. A two-branch actor preserves the distinct roles of hand stabilization and arm&ndash;wrist motion while keeping both closed-loop through the shared state and pen dynamics. Across diverse tracing and writing tasks, the resulting policy improves completion, precision, force regulation, and execution efficiency over both behavior cloning and IK, and generalizes without fine-tuning to unseen English and Chinese content.</p>
+</section>
+
+<section id="why">
+  <h2>Why is it hard?</h2>
+  <p class="lead" style="max-width:none">Writing with a freely held pen asks for three things at once, and robot writers have so far simplified away at least one of them.</p>
+  <div class="grid3 why">
+    <div class="soft">
+      <h3>A high-dexterity hand</h3>
+      <p>The hand has 25 finger joints; with the wrist and arm, the policy drives 34 joints at once. Five fingers can hold a pen the way a person does, but they also give the policy many more ways to lose it: random exploration on the fingers easily drops the pen, and teleoperating 25 finger joints to write at millimetre precision is impractical, so there are no demonstrations to copy directly.</p>
+      <p class="note">Most robot writers mount the pen on the arm or hold it with two or three fingers.</p>
+    </div>
+    <div class="soft">
+      <h3>Force and position together</h3>
+      <p>Good writing needs the tip in the right place and pressing with the right force: a millimetre off and the stroke misses, too light and the ink breaks, too hard and the pen slips or tilts. Every stroke comes with a requested force profile, so the policy has to track position and regulate contact force at the same time, through a pen it holds only by friction.</p>
+      <p class="note">Most systems track the path and leave the force uncontrolled or hold it at a single setpoint.</p>
+    </div>
+    <div class="soft">
+      <h3>Three couplings</h3>
+      <p><b>Pressing vs. holding.</b> The force that makes ink pushes the pen back into the fingers and can make it slip.</p>
+      <p><b>Moving vs. holding.</b> Every acceleration, landing and turn shifts the pen in the grip, so the tip is never exactly where the arm puts it.</p>
+      <p><b>Stroke after stroke.</b> Each stroke is a fresh landing; small errors carry over and compound across a word or a Chinese character.</p>
+      <p class="note">Prior systems each remove one coupling: the pen bolted to the arm, the pen moved in the air, or one stroke at a time.</p>
+    </div>
+  </div>
+</section>
+
+<section id="method">
+  <h2>Method</h2>
+  <p class="lead">Three stages, one physical loop: the fingers keep the pen, the arm and wrist write, and both see the same state.</p>
+  <div class="panel"><img src="media/pipeline.png" alt="Training pipeline"></div>
+
+  <div class="stage">
+    <div>
+      <span class="tagline">FROM A HUMAN GRIP</span>
+      <h3>The grasp starts from how a person holds a pen</h3>
+      <p>We record a person writing on a drawing tablet with two webcams and, after calibration, track the hand and pen with MediaPipe. The tripod grip from 2,915 tracked frames is retargeted to the 25 joints of the robot hand; it is the reference pose that grasp synthesis and the teacher start from.</p>
+      <p class="note">Hand landmarks (green), pen axis (blue) and pen tip (red); the inset shows the second webcam.</p>
+    </div>
+    <img class="vid" src="media/human_grip.jpg" alt="Human tripod grip tracked with MediaPipe during calibration">
+  </div>
+
+  <div style="margin-top:34px">
+    <span class="tagline" style="display:inline-block;font-size:12px;font-weight:700;color:var(--acc);letter-spacing:.07em;margin-bottom:4px">STAGE 1 · GRIP</span>
+    <h3>Learn to keep a free pen</h3>
+    <p style="max-width:860px">The pen is a free body: nothing attaches it to the hand. A grasp policy is cloned from 240 teacher episodes and refined with 8&nbsp;M steps of RL while the environment holds the arm still, swings it through the air, and drags the pen across the paper. Under each video, the bars show the <b>contact force on each fingertip</b> as it plays: thumb, index and middle finger form the tripod; ring and little finger rest.</p>
+    <div class="grid3" id="grasp">
+      <figure style="margin:0"><video class="vid" data-task="L0_hold_static" src="media/grasp/L0_hold_static.mp4" poster="media/grasp/L0_hold_static.jpg" muted loop playsinline></video>
+        <p class="note" style="text-align:center;margin:6px 0 0"><b style="color:var(--ink)">Hold still</b></p>
+        <div class="bars" data-task="L0_hold_static"></div></figure>
+      <figure style="margin:0"><video class="vid" data-task="L0_hold_moving" src="media/grasp/L0_hold_moving.mp4" poster="media/grasp/L0_hold_moving.jpg" muted loop playsinline></video>
+        <p class="note" style="text-align:center;margin:6px 0 0"><b style="color:var(--ink)">Arm swings the hand</b></p>
+        <div class="bars" data-task="L0_hold_moving"></div></figure>
+      <figure style="margin:0"><video class="vid" data-task="L0_scribble" src="media/grasp/L0_scribble.mp4" poster="media/grasp/L0_scribble.jpg" muted loop playsinline></video>
+        <p class="note" style="text-align:center;margin:6px 0 0"><b style="color:var(--ink)">Dragged across the paper</b></p>
+        <div class="bars" data-task="L0_scribble"></div></figure>
+      </div>
+  </div>
+
+  <div class="stage">
+    <div>
+      <span class="tagline">STAGE 2 · TRACE</span>
+      <h3>Imitate a teacher that already holds the pen</h3>
+      <p>An inverse-kinematics (IK) teacher drives the arm and wrist along the requested stroke while the learned grasp holds the pen, so the demonstrations come from the same compliant system the student will control. Part of the data is collected with noise added to the actions. One behavior-cloning policy is fit on traces, digits, letters, words and Chinese characters together.</p>
+    </div>
+    <figure style="margin:0 auto;max-width:420px;width:100%"><video class="vid" src="media/dart/clean.mp4" poster="media/dart/clean.jpg" muted loop playsinline></video><p class="note" style="text-align:center">IK teacher demonstration, with the learned grasp holding the pen</p></figure>
+  </div>
+
+  <div class="stage rev">
+    <div>
+      <video class="vid" id="prog-video" src="media/progress/bc.mp4" poster="media/progress/bc.jpg" muted loop playsinline></video>
+      <input type="range" id="prog-slider" min="0" max="5" step="1" value="0" aria-label="RL checkpoint">
+      <div class="ticks" id="prog-ticks"></div>
+      <div class="kpis" id="prog-kpis"></div>
+    </div>
+    <div>
+      <span class="tagline">STAGE 3 · WRITE</span>
+      <h3>Refine on what lands on the paper</h3>
+      <p>PPO then trains the composed policy on outcomes: ink coverage in stroke order, ink off the target, contact force against the request, time, and keeping the pen. No reward term ties it to the teacher, so it can surpass the teacher. Drag the slider to watch one digit through 40&nbsp;M steps of RL; the chart marks the same checkpoint on the mean over all tasks.</p>
+      <div class="chart" id="curve"></div>
+    </div>
+  </div>
+
+</section>
+
+<section id="results">
+  <h2>Results</h2>
+  <p class="lead">Fifty matched seeds per task. The final policy beats both its BC initialization and the IK teacher it learned from.</p>
+  <div class="stats">
+    <div class="stat"><div class="v">94.8%</div><div class="k">ordered completion within 1&nbsp;mm<br>IK 92.0% · BC 91.3%</div></div>
+    <div class="stat"><div class="v">87.6%</div><div class="k">ink on target<br>IK 80.6% · BC 79.0%</div></div>
+    <div class="stat"><div class="v">&minus;53%</div><div class="k">contact-force error vs. BC<br>0.773 &rarr; 0.362&nbsp;N</div></div>
+    <div class="stat"><div class="v">92%</div><div class="k">completion on unseen words,<br>idioms and characters</div></div>
+  </div>
+
+  <h3>How does RL reduce jittering and off-stroke ink?</h3>
+  <div class="tabs" id="cmp-tabs"><button class="tab on" data-ep="word">Word</button><button class="tab" data-ep="chinese">Chinese character</button>
+</div>
+  <div class="cmp" id="cmp"></div>
+  <p class="note">Force plots: requested (dashed), measured pen&ndash;paper contact (solid).</p>
+
+  <h3 style="margin-top:34px">Every task</h3>
+  <div class="tabs" id="metric-tabs">
+    <button class="tab on" data-m="completion">Completion &uarr;</button><button class="tab" data-m="precision">Precision &uarr;</button>
+    <button class="tab" data-m="force_mae_N">Force error &darr;</button><button class="tab" data-m="time_s">Time &darr;</button></div>
+  <div class="chart" id="bars"></div>
+  <div class="legend"><span><i class="dot" style="background:var(--ik)"></i>IK teacher</span><span><i class="dot" style="background:var(--bc)"></i>BC</span><span><i class="dot" style="background:var(--rl)"></i>RL (ours)</span><span>50 seeds per task; hover a bar for its value.</span></div>
+
+  <h3 style="margin-top:34px">Content it has never seen</h3>
+  <p>Held-out English words, four-character idioms, and Chinese characters with seven or more strokes, written without fine-tuning.</p>
+  <div class="grid3">
+    <figure style="margin:0"><video class="vid" src="media/zeroshot/word.mp4" poster="media/zeroshot/word.jpg" muted loop playsinline></video><p class="note" style="text-align:center">unseen words · 91.6% mean completion</p></figure>
+    <figure style="margin:0"><video class="vid" src="media/zeroshot/idiom.mp4" poster="media/zeroshot/idiom.jpg" muted loop playsinline></video><p class="note" style="text-align:center">four-character idioms · 92.9%</p></figure>
+    <figure style="margin:0"><video class="vid" src="media/zeroshot/chinese.mp4" poster="media/zeroshot/chinese.jpg" muted loop playsinline></video><p class="note" style="text-align:center">unseen characters · 91.6%</p></figure>
+  </div>
+</section>
+
+<section id="next">
+  <h2>Coming next</h2>
+  <p class="lead">Handwriting is the first tool. The same hand and simulator already run brush calligraphy, sketching, painting and chopsticks; these are not part of this paper.</p>
+  <div class="cards" id="next-cards"></div>
+  <p class="note" style="margin-top:12px">Previews run a scripted controller. <a href="tasks.html">See every task &rarr;</a></p>
+</section>
+
+<section id="cite">
+  <h2>Citation</h2>
+<pre>@misc{chen2026griptracewrite,
+  title  = {Grip, Trace, Write: Force-Aware Imitation and Reinforcement Learning
+            for High-DoF Robotic Handwriting},
+  author = {Chen, Rongqian and Chen, Yiding and Zhou, Jijie and Jiahao, Tom Z.},
+  year   = {2026}
+}</pre>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <a href="https://daxo-robotics.com/" target="_blank" rel="noopener"><img class="wordmark-sm" src="media/daxo_wordmark.png" alt="Daxo Robotics"></a>
+</div></footer>
+
+<script src="media/data/data.js"></script>
+<script src="site.js"></script>
+<script>
+// hero: each tile its own episode and loop length
+const HERO = ["L0_hold_moving","L0_scribble","L1_trace_line","L1_trace_circle","L1_trace_shape","L2_write_letters",
+  "L2_write_word","L2_write_digits","L2_write_chinese","E2_write_idiom","L4_sketch_hatching","L3_brush_stroke",
+  "L3_brush_chinese","L3_brush_layout","L5_paint_scene","L6_chop_hold"];
+document.getElementById("hero").innerHTML = HERO.map(t =>
+  `<video src="media/tasks/${t}.mp4" poster="media/tasks/${t}.jpg" muted loop playsinline preload="auto" title="${t}"></video>`).join("");
+
+// stage 1: three grasp videos, each with live finger-force bars
+const FINGERS = ["thumb","index","middle","ring","little"];
+document.querySelectorAll("#grasp .bars").forEach(el => {
+  el.innerHTML = FINGERS.map((f, i) => `<div class="bar${i > 2 ? " idle" : ""}"><b class="v"></b><i></i><span>${f}</span></div>`).join("");
+  el.insertAdjacentHTML("afterend", '<p class="note" style="text-align:center;margin-top:2px">fingertip contact force (N)</p>');
+});
+let graspLog = null;
+loadJSON("media/data/grasp_forces.json").then(d => { graspLog = d; });
+(function tick() {
+  if (graspLog) document.querySelectorAll("#grasp video").forEach(v => {
+    const L = graspLog[v.dataset.task]; if (!L) return;
+    const r = L[Math.min(L.length - 1, Math.floor(v.currentTime * 25))];
+    document.querySelectorAll(`#grasp .bars[data-task="${v.dataset.task}"] .bar`).forEach((b, i) => {
+      const f = r.fingers[i] || 0;
+      b.querySelector("i").style.height = Math.min(100, f / 6 * 100) + "%";
+      b.querySelector(".v").textContent = f.toFixed(1); });
+  });
+  requestAnimationFrame(tick);
+})();
+
+// stage 3: progress slider + RL curve
+Promise.all([loadJSON("media/data/progress.json"), loadJSON("media/data/results.json")]).then(([P, R]) => {
+  const v = document.getElementById("prog-video"), s = document.getElementById("prog-slider");
+  document.getElementById("prog-ticks").innerHTML = P.map(p => `<span>${p.name === "bc" ? "BC" : p.msteps + " M"}</span>`).join("");
+  const kp = document.getElementById("prog-kpis");
+  const show = i => {
+    const p = P[i];
+    if (!v.src.endsWith(`${p.name}.mp4`)) { v.src = `media/progress/${p.name}.mp4`; v.poster = `media/progress/${p.name}.jpg`; v.play().catch(() => {}); }
+    kp.innerHTML = kpi("completion", pct(p.completion)) + kpi("precision", pct(p.precision)) +
+      kpi("force error", p.force_mae_N.toFixed(2) + " N") + kpi("time", p.time_s.toFixed(1) + " s");
+    curve(R.curve, R.ik_mean, p.msteps);
+  };
+  s.addEventListener("input", () => show(+s.value)); show(0);
+});
+function kpi(k, v) { return `<div class="kpi"><b>${v}</b><span>${k}</span></div>`; }
+function curve(C, ik, mark) {
+  const W = 520, H = 196, L = 44, B = 34, T = 14, Rr = 12;
+  const ys = C.map(c => c.completion * 100);
+  const lo = Math.min(...ys, ik.completion * 100) - 0.5, hi = Math.max(...ys, ik.completion * 100) + 0.5;
+  const X = x => L + (x / 42) * (W - L - Rr), Y = y => T + (1 - (y - lo) / (hi - lo)) * (H - T - B);
+  const path = C.map((c, i) => `${i ? "L" : "M"}${X(c.msteps)},${Y(c.completion * 100)}`).join("");
+  const grid = [0, 10, 20, 30, 40].map(x => `<line x1="${X(x)}" x2="${X(x)}" y1="${T}" y2="${H - B}" stroke="#eef0f5"/><text x="${X(x)}" y="${H - B + 14}" font-size="11" text-anchor="middle" fill="#6b7280">${x}</text>`).join("");
+  const yt = [Math.ceil(lo), Math.floor(hi)].map(y => `<text x="${L - 6}" y="${Y(y) + 4}" font-size="11" text-anchor="end" fill="#6b7280">${y}%</text>`).join("");
+  const m = C.reduce((a, c) => Math.abs(c.msteps - mark) < Math.abs(a.msteps - mark) ? c : a);
+  document.getElementById("curve").innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%">${grid}${yt}
+    <line x1="${L}" x2="${W - Rr}" y1="${Y(ik.completion * 100)}" y2="${Y(ik.completion * 100)}" stroke="var(--ik)" stroke-dasharray="5 4"/>
+    <text x="${W - Rr}" y="${Y(ik.completion * 100) - 6}" font-size="11" text-anchor="end" fill="var(--ik)">IK teacher</text>
+    <path d="${path}" fill="none" stroke="var(--rl)" stroke-width="2.2"/>
+    ${C.map(c => `<circle cx="${X(c.msteps)}" cy="${Y(c.completion * 100)}" r="3" fill="var(--rl)"><title>${c.msteps} M steps: ${(c.completion * 100).toFixed(1)}%</title></circle>`).join("")}
+    <circle cx="${X(m.msteps)}" cy="${Y(m.completion * 100)}" r="7" fill="none" stroke="var(--ink)" stroke-width="2"/>
+    <text x="${(L + W) / 2}" y="${H - 2}" font-size="11" text-anchor="middle" fill="#6b7280">mean completion over all tasks, 50 seeds each, vs. environment steps (M)</text></svg>`;
+}
+
+// results: synced comparison
+let CMP = null, ep = "word";
+const WHO = [["ik", "IK teacher", "#b03a2e"], ["bc", "BC", "#7a7f8c"], ["rl", "RL (ours)", "#2457e6"]];
+loadJSON("media/data/compare.json").then(d => { CMP = d; buildCmp(); });
+function buildCmp() {
+  document.getElementById("cmp").innerHTML = WHO.map(([k, name, col]) => {
+    const m = CMP[`${ep}_${k}`].metrics;
+    return `<div><video class="vid" data-k="${k}" src="media/compare/${ep}_${k}.mp4" poster="media/compare/${ep}_${k}.jpg" muted loop playsinline></video>
+      <div class="who"><b style="color:${col}">${name}</b></div>
+      <div class="note" style="margin:0 2px">completion ${pct(m.completion)} · precision ${pct(m.precision)} · force error ${m.force_mae_N.toFixed(2)} N</div>
+      <canvas data-k="${k}"></canvas></div>`;
+  }).join("");
+  autoplayVisible();
+}
+tabs("cmp-tabs", b => { ep = b.dataset.ep; buildCmp(); });
+(function drawCmp() {
+  if (CMP) document.querySelectorAll("#cmp canvas").forEach(cv => {
+    const k = cv.dataset.k, v = document.querySelector(`#cmp video[data-k="${k}"]`);
+    plotForce(cv, CMP[`${ep}_${k}`], v ? v.currentTime : 0, WHO.find(w => w[0] === k)[2]);
+  });
+  requestAnimationFrame(drawCmp);
+})();
+function plotForce(cv, d, t, col) {
+  const r = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+  if (!w) return;
+  if (cv.width !== Math.round(w * r)) { cv.width = Math.round(w * r); cv.height = Math.round(h * r); }
+  const g = cv.getContext("2d"); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, w, h);
+  const T = d.t[d.t.length - 1] || 1, fmax = 2.5;
+  const X = x => x / T * w, Y = y => h - 4 - Math.min(y, fmax) / fmax * (h - 8);
+  g.fillStyle = "#f5f6fa"; g.fillRect(0, 0, w, h);
+  const line = (arr, dash, c, lw) => { g.beginPath(); g.setLineDash(dash); g.strokeStyle = c; g.lineWidth = lw;
+    arr.forEach((y, i) => { const x = X(d.t[i]); i ? g.lineTo(x, Y(y)) : g.moveTo(x, Y(y)); }); g.stroke(); };
+  if (!d.f_pen_s) d.f_pen_s = d.f_pen.map((_, i) => { const a = d.f_pen.slice(Math.max(0, i - 3), i + 4); return a.reduce((x, y) => x + y, 0) / a.length; });
+  line(d.f_pen_s, [], col, 1.4); line(d.f_req, [4, 3], "#141a2b", 1.1);
+  g.setLineDash([]); g.strokeStyle = "#141a2b"; g.globalAlpha = .45; g.beginPath(); g.moveTo(X(Math.min(t, T)), 0); g.lineTo(X(Math.min(t, T)), h); g.stroke(); g.globalAlpha = 1;
+  g.fillStyle = "#6b7280"; g.font = "10px Inter, sans-serif"; g.fillText("force (N)", 4, 11);
+}
+
+// results: per-task bars
+let RES = null, metric = "completion";
+loadJSON("media/data/results.json").then(d => { RES = d; drawBars(); });
+tabs("metric-tabs", b => { metric = b.dataset.m; drawBars(); });
+function drawBars() {
+  const tasks = ["L1_trace_line","L1_trace_circle","L1_trace_shape","L2_write_digits","L2_write_letters","L2_write_word","L2_write_cursive","L2_write_chinese"];
+  const label = {L1_trace_line:"line",L1_trace_circle:"circle",L1_trace_shape:"shape",L2_write_digits:"digits",L2_write_letters:"letters",L2_write_word:"word",L2_write_cursive:"cursive",L2_write_chinese:"Chinese"};
+  const isPct = metric === "completion" || metric === "precision", scale = isPct ? 100 : 1;
+  const unit = {completion:"%",precision:"%",force_mae_N:" N",time_s:" s"}[metric];
+  const vals = tasks.flatMap(t => ["ik","bc","rl"].map(k => RES.per_task[k][t][metric] * scale));
+  const lo = isPct ? Math.floor(Math.min(...vals) / 10) * 10 - 10 : 0, hi = isPct ? 100 : Math.max(...vals) * 1.08;
+  const W = 1040, H = 260, L = 50, B = 34, T = 12, gw = (W - L) / tasks.length, bw = gw / 4.2;
+  const Y = y => T + (1 - (y - lo) / (hi - lo)) * (H - T - B);
+  let s = "";
+  for (let i = 0; i <= 4; i++) { const y = lo + (hi - lo) * i / 4; s += `<line x1="${L}" x2="${W}" y1="${Y(y)}" y2="${Y(y)}" stroke="#eef0f5"/><text x="${L - 6}" y="${Y(y) + 4}" font-size="11" text-anchor="end" fill="#6b7280">${y.toFixed(isPct ? 0 : 1)}${unit}</text>`; }
+  tasks.forEach((t, i) => {
+    ["ik","bc","rl"].forEach((k, j) => {
+      const v = RES.per_task[k][t][metric] * scale, x = L + i * gw + gw * 0.15 + j * (bw + 2);
+      s += `<rect x="${x}" y="${Y(v)}" width="${bw}" height="${Math.max(0, Y(lo) - Y(v))}" rx="3" fill="var(--${k})"><title>${label[t]} · ${k.toUpperCase()}: ${v.toFixed(isPct ? 1 : 2)}${unit}</title></rect>`;
+    });
+    s += `<text x="${L + i * gw + gw / 2}" y="${H - 12}" font-size="12" text-anchor="middle" fill="#2c3345">${label[t]}</text>`;
+  });
+  document.getElementById("bars").innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%">${s}</svg>`;
+}
+
+// coming next
+loadJSON("media/data/tasks.json").then(rows => {
+  const pick = ["L3_brush_chinese", "L4_sketch_hatching", "L5_paint_scene", "L6_chop_hold"];
+  document.getElementById("next-cards").innerHTML = pick.map(id => card(rows.find(r => r.id === id))).join("");
+  autoplayVisible();
+});
+autoplayVisible();
+</script>
+</body>
+</html>

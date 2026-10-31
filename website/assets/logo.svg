@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="Daxo Robotics">
+  <!-- Daxo mark: chamfered square with a square channel open at the bottom -->
+  <path fill="#353A36" d="M44 26h112l18 18v112l-18 18h-34v-28h30V54H48v92h30v28H44l-18-18V44z"/>
+  <rect x="74" y="74" width="52" height="46" fill="#353A36"/>
+</svg>
