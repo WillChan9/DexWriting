@@ -38,7 +38,7 @@ h3{font-size:19px;color:var(--ink);margin:0 0 6px}
 /* hero: independent loops */
 .hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:26px 0 6px;border-radius:var(--radius);overflow:hidden}
 .hero-grid video{width:100%;aspect-ratio:4/3;object-fit:cover}
-.hero-cta{text-align:center;margin:14px 0 8px}
+.hero-cta{display:flex;justify-content:center;width:100%;margin:14px 0 8px}
 .hero-cta .arrow{display:inline-block;transition:transform .2s}
 .hero-cta .btn:hover .arrow{transform:translateX(4px)}
 /* stage blocks */
