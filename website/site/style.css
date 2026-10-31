@@ -16,9 +16,9 @@ header{text-align:center;padding:52px 0 14px}
 .org img.wordmark{height:62px;width:auto}
 footer .wordmark-sm{height:34px;width:auto;display:inline-block;margin-bottom:6px;opacity:.85}
 h1{margin:14px auto 6px;font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:-.02em;color:var(--ink);font-weight:800}
-.subtitle{margin:0 auto;max-width:760px;font-size:clamp(17px,2.4vw,22px);font-weight:500}
+.subtitle{margin:0 auto;max-width:none;font-size:clamp(18px,2.25vw,25px);font-weight:500}
 .authors{margin:20px 0 2px;font-size:17px;color:var(--ink)}.authors span{margin:0 9px;white-space:nowrap}
-.aff{color:var(--muted);font-size:15px;margin:0}
+.aff{margin:10px 0 0;color:var(--muted);font-size:15px}.aff a{display:block}.aff img.wordmark{display:inline-block;opacity:.9}.aff-name{display:block;margin-top:2px}.aff a:hover img{opacity:1}
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px 0 6px}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;border:1px solid var(--ink);cursor:pointer}
 .btn:hover{text-decoration:none;opacity:.88}
