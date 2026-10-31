@@ -17,7 +17,7 @@ header{text-align:center;padding:52px 0 14px}
 footer .wordmark-sm{height:34px;width:auto;display:inline-block;margin-bottom:6px;opacity:.85}
 h1{margin:14px auto 6px;font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:-.02em;color:var(--ink);font-weight:800}
 .subtitle{margin:0 auto;max-width:none;font-size:clamp(18px,2.25vw,25px);font-weight:500}
-.authors{margin:20px 0 2px;font-size:17px;color:var(--ink)}.authors span{margin:0 9px;white-space:nowrap}
+.authors{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 18px;margin:20px 0 2px;font-size:17px;color:var(--ink)}.authors span{white-space:nowrap}
 .aff{margin:10px 0 0;color:var(--muted);font-size:15px}.aff a{display:block}.aff img.wordmark{display:inline-block;opacity:.9}.aff-name{display:block;margin-top:2px}.aff a:hover img{opacity:1}
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px 0 6px}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;border:1px solid var(--ink);cursor:pointer}
@@ -84,9 +84,12 @@ input[type=range]{width:100%;accent-color:var(--acc)}
 .lvl{font-size:11px;font-weight:600;color:var(--muted)}
 pre{background:var(--soft);border-radius:var(--radius);padding:16px 18px;overflow-x:auto;font-size:13.5px;line-height:1.5;color:var(--ink)}
 footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0 40px;font-size:13.5px;color:var(--muted);text-align:center}
+/* grid children may shrink below their content; wide charts scroll inside .chart instead of widening the page */
+.grid2>*,.grid3>*,.stage>*,.cmp>*,.stats>*,.kpis>*{min-width:0}
 @media (max-width:860px){
   .grid2,.grid3,.stage,.stage.rev,.cmp{grid-template-columns:1fr}
   .hero-grid{grid-template-columns:repeat(2,1fr)}
   .stats,.kpis{grid-template-columns:1fr 1fr}
   nav .hide-sm{display:none}
+  .panel{overflow-x:auto}.panel img{width:720px;max-width:none}
 }
