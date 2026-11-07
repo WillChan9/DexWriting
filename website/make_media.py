@@ -12,13 +12,15 @@ Writes website/site/media/:
     compare/                IK, BC and RL on the same episodes
     zeroshot/               held-out content written by the final policy
     data/*.json             per-step force logs and the results tables behind the page's interactive charts
-The method figure is copied from website/assets/method_overview.png.
+The method figure is rendered from website/assets/method_overview.pdf; the paper is copied from website/assets/CoRL2026_PhysWM.pdf.
 """
 import argparse
 import csv
 import json
 import os
+import re
 import shutil
+import subprocess
 import sys
 import zlib
 
@@ -327,7 +329,15 @@ def make_results():
 
 def make_figures():
     os.makedirs(OUT, exist_ok=True)
-    shutil.copy(os.path.join(HERE, "assets", "method_overview.png"), os.path.join(OUT, "pipeline.png"))
+    # pdftocairo cannot crop SVG output, so trim the blank page area below the figure via the viewBox
+    svg = os.path.join(OUT, "pipeline.svg")
+    subprocess.run(["pdftocairo", "-svg", os.path.join(HERE, "assets", "method_overview.pdf"), svg], check=True)
+    with open(svg) as f:
+        text = f.read()
+    text = re.sub(r'width="[^"]*" height="[^"]*" viewBox="[^"]*"', 'width="2110" height="712" viewBox="14 4 2110 712"', text, count=1)
+    with open(svg, "w") as f:
+        f.write(text)
+    shutil.copy(os.path.join(HERE, "assets", "CoRL2026_PhysWM.pdf"), os.path.join(OUT, "paper.pdf"))
 
 
 if __name__ == "__main__":
